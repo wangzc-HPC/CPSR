@@ -20,10 +20,8 @@ CPSR is a lightweight fault tolerance approach for distributed deep learning tra
 * pynvml
 * datasets
 
-### Quick Start
 
-    git clone https://github.com/wangzc-HPC/COCI.git
-    cd COCI
-    pip install -r requirements.txt
-    python ./models/ResNet/ResNet101_CIFAR10.py
+git clone https://github.com/wangzc-HPC/CPSR.git
+cd CPSR
+pip install -r requirements.txt
 
