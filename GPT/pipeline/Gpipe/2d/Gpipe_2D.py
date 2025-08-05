@@ -18,7 +18,7 @@ import gc
 
 import sys
 
-sys.path.append("/lihongliang/wangzc/")
+sys.path.append("/CPSR/")
 from GPT.pipeline.Gpipe.GPT2 import *
 from GPT import PreRecover_ck
 
@@ -363,7 +363,7 @@ i = 0
 # recovery = True
 recovery = False
 if recovery:
-    ck_dir = "/lihongliang/wangzc/GPT/pipeline/Gpipe/2d/checkpoint/gp3_3.35B/3n3g"
+    ck_dir = "/CPSR/GPT/pipeline/Gpipe/2d/checkpoint/gp3_3.35B/3n3g"
     ck_name = 'epoch_0_iter_10_rank_' + (str)(global_rank) + '.pth'
     ck_path = os.path.join(ck_dir, ck_name)
 
@@ -455,7 +455,7 @@ for epoch in range(epochs):
 
                 if global_rank == world_size - 1:
                     if i % 1 == 0 and mb_idx == num_microbatches - 1:  # 1epoch 20285 loss
-                        lossf_path = "/lihongliang/wangzc/GPT/pipeline/Gpipe/2d/loss/GPT3-3.35B-4.npy"
+                        lossf_path = "/CPSR/GPT/pipeline/Gpipe/2d/loss/GPT3-3.35B-4.npy"
                         PreRecover_ck.save_loss(loss.item(), epoch, i // 1, lossf_path)
 
                 loss.backward()
