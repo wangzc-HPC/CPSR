@@ -1,4 +1,4 @@
-# COCI:Convergence-aware Optimal Checkpointing for Exploratory Deep Learning Training Jobs
+# Rehabilitating over Recomputing: A Novel Failure Recovery Method for Large Model Training
 
 This source code is available under the [MIT License](LICENSE.txt).
 
