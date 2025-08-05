@@ -16,7 +16,7 @@ import gc
 
 import sys
 
-sys.path.append("/lihongliang/wangzc/")
+sys.path.append("/CPSR/")
 from GPT.pipeline.Gpipe.GPT2 import *
 from GPT import PreRecover_ck
 
@@ -183,9 +183,9 @@ class char_tokenizer:
 
 # Dataset processing
 raw_datasets = load_dataset(
-    path="/lihongliang/wangzc/GPT/dataset/CodeSearchNet/code_search_net.py",
+    path="/CPSR/GPT/dataset/CodeSearchNet/code_search_net.py",
     name="python",
-    data_dir="/lihongliang/wangzc/GPT/dataset/CodeSearchNet"  # Passed to builder
+    data_dir="/CPSR/GPT/dataset/CodeSearchNet"  # Passed to builder
 )
 datasets = raw_datasets['train'].filter(lambda x: 'apache/spark' in x['repository_name'])
 tok = char_tokenizer(datasets['whole_func_string'])
@@ -391,7 +391,7 @@ i = 0
 # recovery = True
 recovery = False
 if recovery:
-    ck_path = "/lihongliang/wangzc/GPT/dp/checkpoint/gpt2_medium/1n1g/epoch_2_iter_10000_rank_0.pth"
+    ck_path = "/CPSR/GPT/dp/checkpoint/gpt2_medium/1n1g/epoch_2_iter_10000_rank_0.pth"
     ck = torch.load(ck_path)
 
     model.load_state_dict(ck['model_state_dict'])
