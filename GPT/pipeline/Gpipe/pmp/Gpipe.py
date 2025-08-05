@@ -12,7 +12,7 @@ import random
 
 import sys
 
-sys.path.append("/lihongliang/wangzc/")
+sys.path.append("/CPSR/")
 from GPT.pipeline.Gpipe.GPT2 import *
 from GPT import PreRecover_ck
 
