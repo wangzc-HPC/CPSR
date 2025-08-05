@@ -9,7 +9,7 @@ import random
 from tqdm import tqdm
 from sklearn.preprocessing import MinMaxScaler
 
-global_ck_directory = "/lihongliang/wangzc/GPT/ck/"
+global_ck_directory = "/CPSR/GPT/ck/"
 
 
 def save_checkpoint(model, optimizer, scheduler, epoch, loss, iter, seeds, train_loader, grad_accumulation_step,
@@ -130,7 +130,7 @@ def assemble_onefile(cks_directory):
             pbar.update(1)
 
     model_name = cks_directory.split('/')[-1]
-    assemble_directory = "/lihongliang/wangzc/GPT/ck/assemble/"
+    assemble_directory = "/CPSR/GPT/ck/assemble/"
     assemble_path = os.path.join(assemble_directory, model_name + ".npy")
     np.save(assemble_path, cks)
 
@@ -294,14 +294,14 @@ def clean_npy(path):
     print(std)  # 0.020129047
 
     dataset = (dataset - min) / (max - min)
-    output_file = '/lihongliang/wangzc/GPT/ck/module.layer.12.h.mlp.c_fc.weight_norm.npy'
+    output_file = '/CPSR/GPT/ck/module.layer.12.h.mlp.c_fc.weight_norm.npy'
     np.save(output_file, dataset)
 
 
 def split_temporal():
-    path = '/lihongliang/wangzc/GPT/ck/1/module.layer.12.h.mlp.c_fc.weight.npy'
+    path = '/CPSR/GPT/ck/1/module.layer.12.h.mlp.c_fc.weight.npy'
     samples = np.load(path)
-    split_path = '/lihongliang/wangzc/GPT/ck/1/module.layer.12.h.mlp.c_fc.weight_0_60.npy'
+    split_path = '/CPSR/GPT/ck/1/module.layer.12.h.mlp.c_fc.weight_0_60.npy'
     split_samples = samples[0:60]
     print(f"split_samples shape is {split_samples.shape}")
     np.save(split_path, split_samples)
@@ -339,8 +339,8 @@ def distributed_split_spatial():
 
 
 def recovery(origin_recovery_path):
-    predict_path = '/lihongliang/wangzc/Predict/predict_parameter.npy'
-    origin_path = '/lihongliang/wangzc/GPT/checkpoint/1_0.pth'
+    predict_path = '/CPSR/Predict/predict_parameter.npy'
+    origin_path = '/CPSR/GPT/checkpoint/1_0.pth'
     ck = torch.load(origin_path)
 
     predict_np = np.load(predict_path)  # (1024,4096)
@@ -362,8 +362,8 @@ def recovery(origin_recovery_path):
 
 
 def integration_loss():
-    origin_path = '/lihongliang/wangzc/GPT/loss/loss_origin.npy'
-    origin_continue_path = '/lihongliang/wangzc/GPT/loss/loss_origin_continue.npy'
+    origin_path = '/CPSR/GPT/loss/loss_origin.npy'
+    origin_continue_path = '/CPSR/GPT/loss/loss_origin_continue.npy'
     origin = np.load(origin_path)
     origin_continue = np.load(origin_continue_path)
 
@@ -374,18 +374,18 @@ def integration_loss():
 
 
 def cut():
-    origin_path = '/lihongliang/wangzc/GPT/checkpoint/1_0.pth'
+    origin_path = '/CPSR/GPT/checkpoint/1_0.pth'
     ck = torch.load(origin_path)
     model = ck['model_state_dict']
     model = ck['model_state_dict']['module.layer.12.h.mlp.c_fc.weight']
 
-    new_path = '/lihongliang/wangzc/Predict/result/module.layer.12.h.mlp.c_fc.weight.pth'
+    new_path = '/CPSR/Predict/result/module.layer.12.h.mlp.c_fc.weight.pth'
     torch.save(model, new_path)
 
 
 def predict_process():
-    assemble("/lihongliang/wangzc/GPT/ck/layer.12.h.mlp.c_fc.weight", 2380)  # Takes ~10 minutes
-    model_dir = "/lihongliang/wangzc/GPT/ck/assemble/layer.12.h.mlp.c_fc.weight"
+    assemble("/CPSR/GPT/ck/layer.12.h.mlp.c_fc.weight", 2380)  # Takes ~10 minutes
+    model_dir = "/CPSR/GPT/ck/assemble/layer.12.h.mlp.c_fc.weight"
     layer_n = 'layer.12.h.mlp.c_fc.weight'
     min, max = aggregate(model_dir)
     distributed_normalization(model_dir, layer_n, min, max)  # Takes ~54 seconds
@@ -484,9 +484,9 @@ def invert_normalization(predict_path, origin_path, min_max_path):
 
 
 if __name__ == '__main__':
-    csv_path = '/lihongliang/wangzc/Diffusion-TS-main/Data/datasets/module.layer.12.h.mlp.c_fc.weight.csv'
-    npy_path = '/lihongliang/wangzc/GPT/ck/1/module.layer.12.h.mlp.c_fc.weight.npy'
+    csv_path = '/CPSR/Diffusion-TS-main/Data/datasets/module.layer.12.h.mlp.c_fc.weight.csv'
+    npy_path = '/CPSR/GPT/ck/1/module.layer.12.h.mlp.c_fc.weight.npy'
 
     # Example usage:
     # predict_process()
-    # recovery("/lihongliang/wangzc/Predict/origin_parameter.npy")
+    # recovery("/CPSR/Predict/origin_parameter.npy")
